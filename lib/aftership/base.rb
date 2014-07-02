@@ -23,7 +23,7 @@ module AfterShip
         request.headers = {"aftership-api-key" => AfterShip.api_key, 'Content-Type' => 'application/json'}
         request.body = body.to_json
 
-        AfterShip.before_send.call(request) if AfterShip.before_send
+        AfterShip.before_send(request)
 
         response = HTTPI.send(http_verb_method.to_sym, request)
 

@@ -7,7 +7,24 @@ require "aftership/last_checkpoint"
 module AfterShip
   class << self;
     attr_accessor :api_key
-    attr_accessor :before_send
+
+    ##
+    # Define a block to alter a request before sending.
+    #
+    # AfterShip.before_send do |request|
+    #   request.request.open_timeout = 5
+    #   request.read_timeout = 5
+    #   request.auth.ssl.verify_mode = :none
+    # end
+    #
+    def before_send(request, &blk)
+      @before_send ||= ->(request){}
+      if block_given?
+        @before_send = blk
+      else
+        @before_send.call(request)
+      end
+    end
   end
 
   URL = "https://api.aftership.com"
