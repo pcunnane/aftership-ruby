@@ -17,7 +17,7 @@ module AfterShip
     #   request.auth.ssl.verify_mode = :none
     # end
     #
-    def before_send(request, &blk)
+    def before_send(request = nil, &blk)
       @before_send ||= ->(request){}
       if block_given?
         @before_send = blk
